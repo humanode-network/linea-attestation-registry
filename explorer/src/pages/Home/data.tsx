@@ -4,6 +4,7 @@ import Automata from "@/assets/issuers/automata.svg?react";
 import GitcoinDark from "@/assets/issuers/gitcoin-dark.svg?react";
 import Gitcoin from "@/assets/issuers/gitcoin.svg?react";
 import Hapi from "@/assets/issuers/hapi.svg?react";
+import Humanode from "@/assets/issuers/humanode.svg?react";
 import Nomis from "@/assets/issuers/nomis.svg?react";
 import Okapi from "@/assets/issuers/okapi-black.svg?react";
 import OkapiDark from "@/assets/issuers/okapi-white.svg?react";
@@ -448,4 +449,27 @@ export const issuersData: IIssuer[] = [
       },
     ],
   },
+  {
+    name: "Humanode",
+    logo: Humanode,
+    logoDark: Humanode,
+    keywords: ["Proof of Biometric Uniqueness", "Cryptobiometrics"],
+    description:
+      "Humanode is a Layer 1 secured by private biometric verification (cryptobiometrics), ensuring that each node represents a unique, real human. By eliminating reliance on tokens or computational power for validation, Humanode provides robust Sybil resistance, empowering an egalitarian, decentralized ecosystem where governance and participation are driven by human authenticity.",
+    CTALink: "https://humanode.io/",
+    CTATitle: "Go To Humanode",
+    address: "0x4D9D252C6Ef94184b4a2f15Fb682b01294e876A1",
+    attestationDefinitions: [
+      {
+        name: "Humanode Biomapper",
+        logo: Humanode,
+        description: 
+          "Cryptobiometric verification of uniqueness and existence of humans. Allows to attach one person to one account and disallows creation of other accounts with the same face without revealing any kind of information to any party.",
+        portal: "0x5f2a7c3f02b24ad65aa3a20fac07122ff22796e8",
+        schema: "0x08ef3cfbb86ea1725133631777c20450a9029b36b5009148115dcfe4f3b2f99b",
+        url: "https://biomapper.hmnd.app",
+        chainId: "0x1472",
+      },
+    ],
+  }
 ];
