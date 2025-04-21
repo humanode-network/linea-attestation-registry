@@ -1,0 +1,36 @@
+{
+  "name": "@verax-attestation-registry/verax-examples",
+  "version": "1.0.0",
+  "description": "Example contracts for Verax Attestation Registry",
+  "keywords": [
+    "verax",
+    "blockchain",
+    "attestation",
+    "ethereum",
+    "foundry",
+    "hardhat",
+    "examples"
+  ],
+  "repository": "github.com/Consensys/linea-attestation-registry",
+  "license": "MIT",
+  "author": "Consensys",
+  "files": [
+    "src/**/*.sol",
+    "test/**/*.t.sol"
+  ],
+  "scripts": {
+    "build": "forge build",
+    "clean": "rm -rf cache_forge out artifacts cache",
+    "compile": "forge compile",
+    "lint": "pnpm solhint \"{src,test}/**/*.sol\" -c ../contracts/.solhint.json",
+    "test": "forge test"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "4.9.6",
+    "@openzeppelin/contracts-upgradeable": "4.9.6",
+    "@verax-attestation-registry/verax-contracts": "10.0.0"
+  },
+  "devDependencies": {
+    "solhint": "^5.0.5"
+  }
+}
