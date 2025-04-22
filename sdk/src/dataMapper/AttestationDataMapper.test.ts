@@ -127,6 +127,7 @@ describe("AttestationDataMapper", () => {
     });
 
     it("should set offchainData.error if IPFS request fails", async () => {
+      (BaseDataMapper.prototype.findOneById as jest.Mock).mockResolvedValue(mockAttestation);
       (decodeWithRetry as jest.Mock).mockReturnValue([
         { schemaId: Constants.OFFCHAIN_DATA_SCHEMA_ID, uri: "ipfs://QmHash" },
       ]);

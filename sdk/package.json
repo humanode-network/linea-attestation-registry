@@ -50,6 +50,7 @@
     "axios": "^1.8.2",
     "dotenv": "^16.3.1",
     "graphql": "^16.8.1",
+    "ipfs-http-client": "^60.0.1",
     "viem": "^2.21.35"
   },
   "devDependencies": {
@@ -57,6 +58,7 @@
     "@babel/preset-env": "^7.23.3",
     "@babel/preset-typescript": "^7.23.3",
     "@graphprotocol/client-cli": "^3.0.0",
+    "@jest/globals": "^29.7.0",
     "@types/jest": "^29.5.8",
     "@types/node": "^20.9.0",
     "babel-jest": "^29.7.0",

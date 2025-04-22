@@ -1,5 +1,5 @@
-import { AttestationPayload, Portal, TransactionOptions } from "../types";
-import { ActionType } from "../utils/constants";
+import { AttestationPayload, OffChainAttestationPayload, Portal, TransactionOptions } from "../types";
+import { ActionType, Constants } from "../utils/constants";
 import BaseDataMapper from "./BaseDataMapper";
 import { abiDefaultPortal } from "../abi/DefaultPortal";
 import { Abi, Address, WriteContractParameters } from "viem";
@@ -8,6 +8,7 @@ import { Portal_filter, Portal_orderBy } from "../../.graphclient";
 import { abiPortalRegistry } from "../abi/PortalRegistry";
 import { handleError } from "../utils/errorHandler";
 import { executeTransaction } from "../utils/transactionSender";
+import { IPFSService } from "../utils/ipfsService";
 
 export default class PortalDataMapper extends BaseDataMapper<Portal, Portal_filter, Portal_orderBy> {
   typeName = "portal";
@@ -84,6 +85,64 @@ export default class PortalDataMapper extends BaseDataMapper<Portal, Portal_filt
       options?.value,
       options?.customAbi,
     );
+  }
+
+  async simulateAttestOffChain(
+    portalAddress: Address,
+    attestationPayload: OffChainAttestationPayload,
+    validationPayloads: string[] = [],
+    options?: TransactionOptions,
+  ) {
+    if (!attestationPayload?.offchainData) {
+      throw new Error("Attestation payload with offchainData is required");
+    }
+
+    const { schemaId, payload } = attestationPayload.offchainData;
+
+    const matchingSchema = await this.veraxSdk.schema.findOneById(attestationPayload.schemaId);
+    if (!matchingSchema) {
+      throw new Error("No matching Schema");
+    }
+
+    // Validate IPFS configuration
+    if (!this.conf.offchainConfig?.projectId || !this.conf.offchainConfig?.projectSecret) {
+      throw new Error("IPFS configuration missing projectId or projectSecret");
+    }
+
+    const ipfsService = new IPFSService(this.conf.offchainConfig);
+
+    // Upload to IPFS
+    let uri: string;
+    try {
+      uri = await ipfsService.uploadToIPFS(payload);
+    } catch (error) {
+      throw new Error(`Failed to upload payload to IPFS: ${(error as Error).message}`);
+    }
+
+    // Prepare onchain Attestation using the OFFCHAIN_DATA_SCHEMA
+    const onChainPayload: AttestationPayload = {
+      ...attestationPayload,
+      schemaId: Constants.OFFCHAIN_DATA_SCHEMA_ID,
+      attestationData: [
+        {
+          schemaId,
+          uri,
+        },
+      ],
+    };
+
+    // Issue onchain Attestation through the Portal
+    return this.simulateAttest(portalAddress, onChainPayload, validationPayloads, options);
+  }
+
+  async attestOffChain(
+    portalAddress: Address,
+    attestationPayload: OffChainAttestationPayload,
+    validationPayloads: string[] = [],
+    options?: TransactionOptions,
+  ) {
+    const request = await this.simulateAttestOffChain(portalAddress, attestationPayload, validationPayloads, options);
+    return executeTransaction(request, this.web3Client, this.walletClient, options?.waitForConfirmation);
   }
 
   async bulkAttest(
