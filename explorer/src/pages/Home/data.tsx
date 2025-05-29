@@ -464,7 +464,7 @@ export const issuersData: IIssuer[] = [
         name: "Humanode Biomapper",
         logo: Humanode,
         description:
-          "Cryptobiometric verification of uniqueness and existence of humans. Allows attaching one person to one account and disallows the creation of other accounts with the same face without revealing any kind of information to any party.",
+          "Proof of uniqueness and existence for real humans—without revealing identity. One person, one address. No duplicates, no fakes.",
         portal: "0x460dD1346867771A4aC9B84fa868f42D3D9843fa",
         schema: "0x08ef3cfbb86ea1725133631777c20450a9029b36b5009148115dcfe4f3b2f99b",
         url: "https://biomapper.hmnd.app",
